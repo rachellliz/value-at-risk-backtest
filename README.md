@@ -66,6 +66,7 @@ The Kupiec proportion-of-failures test checks whether the number of exceptions $
 ```math
 LR = -2\ln\left[\frac{(1-p)^{n-x} p^{x}}{(1-\hat p)^{n-x} \hat p^{x}}\right] \sim \chi^2_1, \qquad \hat p = x/n
 ```
+
 | Model | Exceptions | Rate | LR | p-value | Result (5%) |
 |---|---|---|---|---|---|
 | Historical | 38 | 1.39% | 3.78 | 0.052 | not rejected |
