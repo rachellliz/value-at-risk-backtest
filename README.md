@@ -20,19 +20,25 @@ Four Value at Risk (VaR) models for a Swiss equity portfolio, compared in a roll
 
 **Value at Risk** is the loss that is exceeded on only 1% of days; **Expected Shortfall** is the average loss on those days:
 
-$$\text{VaR}_{99\%} = -q_{1\%}(r), \qquad \text{ES}_{99\%} = -\mathbb{E}\left[r \mid r \le q_{1\%}\right]$$
+```math
+\text{VaR}_{99\%} = -q_{1\%}(r), \qquad \text{ES}_{99\%} = -\mathbb{E}\left[r \mid r \le q_{1\%}\right]
+```
 
 1. **Historical simulation:** the empirical 1% quantile of the last 250 returns.
-2. **Parametric (normal):** $\text{VaR} = -(\mu + z_{0.01}\,\sigma)$ with $z_{0.01} \approx -2.326$, using the mean and standard deviation of the last 250 returns.
-3. **EWMA (RiskMetrics):** volatility that weights recent days more, with $\lambda = 0.94$ (half-life of about 11 trading days), and $\text{VaR}_t = -z_{0.01}\,\sigma_t$:
+2. **Parametric (normal):** $`\text{VaR} = -(\mu + z_{0.01} \sigma)`$ with $`z_{0.01} \approx -2.326`$, using the mean and standard deviation of the last 250 returns.
+3. **EWMA (RiskMetrics):** volatility that weights recent days more, with $`\lambda = 0.94`$ (half-life of about 11 trading days), and $`\text{VaR}_t = -z_{0.01} \sigma_t`$:
 
-$$\sigma_t^2 = \lambda\,\sigma_{t-1}^2 + (1-\lambda)\,r_{t-1}^2$$
+```math
+\sigma_t^2 = \lambda \sigma_{t-1}^2 + (1-\lambda) r_{t-1}^2
+```
 
-4. **Filtered historical simulation (FHS):** returns are standardized by their EWMA volatility, $u_t = r_t / \sigma_t$. The VaR is the current volatility times the empirical 1% quantile of the last 250 standardized returns:
+4. **Filtered historical simulation (FHS):** returns are standardized by their EWMA volatility, $`u_t = r_t / \sigma_t`$. The VaR is the current volatility times the empirical 1% quantile of the last 250 standardized returns:
 
-$$\text{VaR}_t = -\sigma_t \cdot q_{1\%}(u_{t-250}, \dots, u_{t-1})$$
+```math
+\text{VaR}_t = -\sigma_t \cdot q_{1\%}(u_{t-250}, \dots, u_{t-1})
+```
 
-All models use only information available before day $t$ (no look-ahead bias).
+All models use only information available before day $`t`$ (no look-ahead bias).
 
 ## Results
 
@@ -55,10 +61,11 @@ Each day's VaR is estimated from the previous 250 trading days and compared with
 
 ### Kupiec test
 
-The Kupiec proportion-of-failures test checks whether the number of exceptions $x$ in $n$ days is consistent with the target rate $p = 1\%$:
+The Kupiec proportion-of-failures test checks whether the number of exceptions $`x`$ in $`n`$ days is consistent with the target rate $`p = 1\%`$:
 
-$$LR = -2\ln\left[\frac{(1-p)^{n-x}\,p^{x}}{(1-\hat p)^{n-x}\,\hat p^{x}}\right] \sim \chi^2_1, \qquad \hat p = x/n$$
-
+```math
+LR = -2\ln\left[\frac{(1-p)^{n-x} p^{x}}{(1-\hat p)^{n-x} \hat p^{x}}\right] \sim \chi^2_1, \qquad \hat p = x/n
+```
 | Model | Exceptions | Rate | LR | p-value | Result (5%) |
 |---|---|---|---|---|---|
 | Historical | 38 | 1.39% | 3.78 | 0.052 | not rejected |
